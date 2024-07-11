@@ -388,8 +388,8 @@
                                 const rh = observation.relative_humidity;
                                 const uv = observation.uv;
                                 const solarRadiation = observation.solar_radiation;
-                                const precipAccumulation = observation.precip;
-                                const localDayPrecipAccumulation = observation.precip_accum_local_day;
+                                const precipAccumulation = Math.round(observation.precip * 25.4);
+                                const localDayPrecipAccumulation = Math.round(observation.precip_accum_local_day * 25.4);
                                 const precipType = observation.precip_type;
                                 const strikeCount = observation.lightning_strike_count;
                                 const strikeDistance = observation.lightning_strike_last_distance;
