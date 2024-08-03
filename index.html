@@ -16,7 +16,7 @@
             width: 100%;
         }
         .wind-label {
-            font-size: 12px;
+            font-size: 18px;
             color: white;
             text-align: center;
         }
@@ -67,8 +67,6 @@
         L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=qRtOLEbFXYf4KPEMsVoa3ZZ6NFM28aVxHbR6uaE5dG8b5Ya3q36mB30tXAUnMVVj', {
             attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
         }).addTo(map);
-
-        
 
         // Define the polygon for Hernando County boundaries
         var hernandoCountyCoords = [
@@ -12277,7 +12275,7 @@
                 return L.divIcon({
                     className: 'custom-icon',
                     html: `<div>x</div>`,
-                    iconSize: [30, 30]
+                    iconSize: [40, 40]
                 });
             } else {
                 var colorClass = '';
@@ -12346,8 +12344,8 @@
                                 // Create a marker with a label containing the wind speed and gust strength
                                 const windLabel = L.divIcon({
                                     className: 'wind-label',
-                                    html: `<div><b>${station.name}: ${windAvg}g${windGust} ${windCardinal}</b></div>`,
-                                    iconSize: [100, 100],
+                                    html: `<div><b>${station.name}:<br> ${windAvg}g${windGust} ${windCardinal}</b></div>`,
+                                    iconSize: [150, 140],
                                     popupAnchor: [0, -30]
                                 });
 
