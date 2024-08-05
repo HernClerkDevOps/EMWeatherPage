@@ -59,6 +59,9 @@
 				color: white;
 				z-index: 1000; /* Ensure the footer is on top */
 			}
+			.house-icon {
+				background-image: "fire.png";
+			}
 		</style>
 	</head>
 	<body>
@@ -12442,10 +12445,8 @@
                                             <i class='bx bxs-hot'></i></div>`,
 										iconSize: [100, 100],
 									});
-                                    //Courthouse
+									//Courthouse
 									L.marker([28.55698845950199, -82.38642536699768], { icon: HouseLabel }).addTo(map);
-
-									
 								})
 								.catch(error => {
 									console.error("Error fetching observation data:", error);
@@ -12458,6 +12459,8 @@
 					.catch(error => {
 						console.error("Error fetching weather station data:", error);
 					});
+
+				GetGeoJSONData();
 			}
 
 			// Initial call to update data
@@ -12465,6 +12468,47 @@
 
 			// Set interval to update data every minute (60000 milliseconds)
 			setInterval(updateWeatherData, 60000);
+
+			//Testing GeoJSON
+			async function GetGeoJSONData() {
+				console.log("Fetching GeoJSON Data");
+				let geojsonResponse = await fetch("https://central-ap.hernandoclerk.org/jotform/api/damage-assessment/geojson");
+				let geojsonData = await geojsonResponse.json();
+
+				let houseIcon = L.icon({
+					iconUrl: "fire.png",
+					iconSize: [38, 95],
+					iconAnchor: [22, 94],
+					popupAnchor: [-3, -76],
+					shadowUrl: "fire.png",
+					shadowSize: [68, 95],
+					shadowAnchor: [22, 94],
+				});
+
+                var geojsonMarkerOptions = {
+                    icon: houseIcon
+                };
+
+				L.geoJSON(geojsonData, {
+					pointToLayer: function (feature, latlng) {
+						return L.circleMarker(latlng, geojsonMarkerOptions);
+					}
+				})
+					.bindPopup(function (layer) {
+						return `Address: ${layer.feature.properties.street}<br>
+                             Damage Cause: ${layer.feature.properties.damage_cause}<br>
+                             Foundation: ${layer.feature.properties.foundation}<br>
+                             Superstructure: ${layer.feature.properties.superstructure}<br>
+                             Roofing: ${layer.feature.properties.roofing}<br>
+                             Ext. Finish: ${layer.feature.properties.exterior_finish}<br>
+                             Int. Finish: ${layer.feature.properties.interior_finish}<br>
+                             Door/Windows: ${layer.feature.properties.door_windows}<br>
+                             Remarks: ${layer.feature.properties.remarks}<br>
+                            `;
+					})
+
+					.addTo(map);
+			}
 		</script>
 	</body>
 </html>
