@@ -12472,7 +12472,7 @@
 			//Testing GeoJSON
 			async function GetGeoJSONData() {
 				console.log("Fetching GeoJSON Data");
-				let geojsonResponse = await fetch("https://central-ap.hernandoclerk.org/jotform/api/damage-assessment/geojson");
+				let geojsonResponse = await fetch("https://central-ap.hernandoclerk.org/forerunner/api/damage-assessment");
 				let geojsonData = await geojsonResponse.json();
 
 				let houseIcon = L.icon({
