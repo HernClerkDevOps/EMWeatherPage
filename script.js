@@ -88,7 +88,7 @@ async function GetPDAGeoJSONData() {
     }
 
     console.log("Fetching Forerunner GeoJSON Data");
-    let geojsonResponse = await fetch("https://central-ap.hernandoclerk.org/forerunner/api/damage-assessment");
+    let geojsonResponse = await fetch("https://central-ap.hernandoclerk.org/forerunner/api/damage-assessment/2024-09-01");
     let geojsonData = await geojsonResponse.json();
 
     // let houseIcon = L.divIcon({
@@ -113,15 +113,26 @@ async function GetPDAGeoJSONData() {
         }
     })
         .bindPopup(function (layer) {
-            return `Address: ${layer.feature.properties.street}<br>
-                 Damage Cause: ${layer.feature.properties.damage_cause}<br>
+            return `Address: ${layer.feature.properties.address}<br>
+                 Form: ${layer.feature.properties.form}<br>
+                 Description: ${layer.feature.properties.description}<br>
+                 Damage Cause: ${layer.feature.properties.damage}<br>
                  Foundation: ${layer.feature.properties.foundation}<br>
+                Type of Residence: ${layer.feature.properties.type_of_residence}<br>
+                Owner/Renter: ${layer.feature.properties.owner_renter}<br>
+                 Use of Structure: ${layer.feature.properties.structure_use}<br>
+                 Type of Structure: ${layer.feature.properties.type_of_structure}<br>
                  Superstructure: ${layer.feature.properties.superstructure}<br>
                  Roofing: ${layer.feature.properties.roofing}<br>
+                 Flooding: ${layer.feature.properties.flooded}<br>
+                 Type of Damage: ${layer.feature.properties.type_of_damage}<br>
+                 Water Intrusion: ${layer.feature.properties.water_intrusion}<br>
+                 Est. Water Intrusion: ${layer.feature.properties.est_water_intrusion}<br>
+                 Accessible: ${layer.feature.properties.accessible}<br>
                  Ext. Finish: ${layer.feature.properties.exterior_finish}<br>
                  Int. Finish: ${layer.feature.properties.interior_finish}<br>
                  Door/Windows: ${layer.feature.properties.door_windows}<br>
-                 Remarks: ${layer.feature.properties.remarks}<br>
+                 Public URL: ${layer.feature.properties.public_url}<br>
                 `;
         })
 
@@ -135,7 +146,7 @@ function updateWeatherData() {
         .then(response => response.json())
         .then(data => {
 
-            GetPDAGeoJSONData();
+            
 
             // Remove existing markers before adding updated ones
             map.eachLayer(layer => {
@@ -144,8 +155,7 @@ function updateWeatherData() {
                 }
             });
 
-            GetPDAGeoJSONData();
-
+    
             // Iterate through the stations and add markers to the map
             data.stations.forEach(station => {
                 // Fetch observation data for each station
@@ -153,8 +163,7 @@ function updateWeatherData() {
                     .then(response => response.json())
                     .then(observationData => {
 
-                        console.log('Fetching WeatherFlow Data for Station ID: ', station.station_id);
-
+                        // console.log('Fetching WeatherFlow Data for Station ID: ', station.station_id);
                         if(observationData.obs.length > 0){
                             const observation = observationData.obs[0];
                             const windAvg = Math.round(observation.wind_avg ?? 0 * 2.23);
@@ -249,13 +258,11 @@ function updateWeatherData() {
 
                     
                     
-            });
-
-            
+            });            
             
             // Update lightning data after weather data
             updateLightningData();
-           
+            GetPDAGeoJSONData();
         })
         .catch(error => {
             console.error("Error fetching weather station data:", error);
@@ -268,39 +275,39 @@ function updateWeatherData() {
 updateWeatherData();
 
 // Set interval to update data every minute (60000 milliseconds)
-setInterval(updateWeatherData, 10000);
+setInterval(updateWeatherData, 60000);
 
 
 
 
 //jQuery for the Filter button
-$('body').on("click", ".dropdown-menu", function (e) {
-    $(this).parent().is(".open") && e.stopPropagation();
-});
+// $('body').on("click", ".dropdown-menu", function (e) {
+//     $(this).parent().is(".open") && e.stopPropagation();
+// });
 
-$('.selectall').click(function() {
-    if ($(this).is(':checked')) {
-        $('.option').prop('checked', true);
-        var total = $('input[name="options[]"]:checked').length;
-        $(".dropdown-text").html('(' + total + ') Selected');
-        $(".select-text").html(' Deselect');
-    } else {
-        $('.option').prop('checked', false);
-        $(".dropdown-text").html('Filter');
-        $(".select-text").html(' Select');
-    }
-});
+// $('.selectall').click(function() {
+//     if ($(this).is(':checked')) {
+//         $('.option').prop('checked', true);
+//         var total = $('input[name="options[]"]:checked').length;
+//         $(".dropdown-text").html('(' + total + ') Selected');
+//         $(".select-text").html(' Deselect');
+//     } else {
+//         $('.option').prop('checked', false);
+//         $(".dropdown-text").html('Filter');
+//         $(".select-text").html(' Select');
+//     }
+// });
 
-$("input[type='checkbox'].justone").change(function(){
-    var a = $("input[type='checkbox'].justone");
-    if(a.length == a.filter(":checked").length){
-        $('.selectall').prop('checked', true);
-        $(".select-text").html(' Deselect');
-    }
-    else {
-        $('.selectall').prop('checked', false);
-        $(".select-text").html(' Select');
-    }
-  var total = $('input[name="options[]"]:checked').length;
-  $(".dropdown-text").html('(' + total + ') Filter Selected');
-});
+// $("input[type='checkbox'].justone").change(function(){
+//     var a = $("input[type='checkbox'].justone");
+//     if(a.length == a.filter(":checked").length){
+//         $('.selectall').prop('checked', true);
+//         $(".select-text").html(' Deselect');
+//     }
+//     else {
+//         $('.selectall').prop('checked', false);
+//         $(".select-text").html(' Select');
+//     }
+//   var total = $('input[name="options[]"]:checked').length;
+//   $(".dropdown-text").html('(' + total + ') Filter Selected');
+// });
