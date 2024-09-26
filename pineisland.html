@@ -3,18 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Cam - Pine Island Weeki Cam</title>
+    <title>Multi-Cam Display</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden;
+            width: 100%;
+            display: flex;
         }
 
-        #liveImage {
+        #grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0;
             width: 100vw;
             height: 100vh;
+        }
+
+        .cam {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+
+        img, iframe {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
@@ -28,6 +48,7 @@
             border-radius: 8px;
             font-family: Arial, sans-serif;
             font-size: 1.5rem;
+            z-index: 10;
         }
     </style>
     <script>
@@ -59,7 +80,21 @@
     </script>
 </head>
 <body>
-    <img id="liveImage" src="https://media.raven.news/weathercams/pine-island-weeki-cam/axis-cgi/jpg/image.cgi" alt="Pine Island Weeki Cam">
-    <div id="timer">Refresh in: 30s</div>
+    <div id="grid-container">
+        <!-- First section: Image -->
+        <div class="cam">
+            <img id="liveImage" src="https://media.raven.news/weathercams/pine-island-weeki-cam/axis-cgi/jpg/image.cgi" alt="Pine Island Weeki Cam">
+            <div id="timer">Refresh in: 30s</div>
+        </div>
+
+        <!-- Second section: New camera feed -->
+        <div class="cam">
+            <iframe src="https://v.angelcam.com/iframe?v=j3l78zxdrm&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb21haW4iOiJoZXJuYW5kby1iZWFjaC1ndWxmLW1tNTMuY2xpY2syc3RyZWFtLmNvbSIsImNhbWVyYV9pZCI6MTA5NDY3LCJleHAiOjE3Mjc0NDIzNjd9.XCrygBrKR8FqM2eYyh_81ugu6WdpRrFX713NEj6pvFA&autoplay=1" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <!-- Third and fourth sections: Placeholder for now -->
+        <div class="cam"></div>
+        <div class="cam"></div>
+    </div>
 </body>
 </html>
