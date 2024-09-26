@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Cam - Pine Island Weeki Cam</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #liveImage {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        #timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 1.5rem;
+        }
+    </style>
+    <script>
+        let refreshInterval = 30;
+        let timeLeft = refreshInterval;
+
+        function refreshImage() {
+            const img = document.getElementById('liveImage');
+            const timestamp = new Date().getTime(); // Add timestamp to avoid caching
+            img.src = 'https://media.raven.news/weathercams/pine-island-weeki-cam/axis-cgi/jpg/image.cgi?' + timestamp;
+            timeLeft = refreshInterval; // Reset the countdown
+        }
+
+        function updateTimer() {
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = `Refresh in: ${timeLeft}s`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                refreshImage(); // Refresh image when the countdown hits 0
+            }
+        }
+
+        // Update the timer every second
+        setInterval(updateTimer, 1000);
+
+        // Refresh image every 30 seconds
+        setInterval(refreshImage, refreshInterval * 1000);
+    </script>
+</head>
+<body>
+    <img id="liveImage" src="https://media.raven.news/weathercams/pine-island-weeki-cam/axis-cgi/jpg/image.cgi" alt="Pine Island Weeki Cam">
+    <div id="timer">Refresh in: 30s</div>
+</body>
+</html>
