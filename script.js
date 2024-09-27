@@ -1,13 +1,5 @@
 
 
-//Filter Button
-let filterBtn = document.getElementById('show_pda');
-let showPDA = filterBtn.checked;
-console.log('Showing PDA: ', filterBtn);
-
-filterBtn.onchange = () => {
-    updateWeatherData();
-}
 
 // Your WeatherFlow API token
 var apiToken = "42845b2e-4af9-4843-8139-ea3a1e3a8efb";
@@ -146,8 +138,6 @@ function updateWeatherData() {
         .then(response => response.json())
         .then(data => {
 
-            
-
             // Remove existing markers before adding updated ones
             map.eachLayer(layer => {
                 if (layer instanceof L.Marker) {
@@ -262,7 +252,7 @@ function updateWeatherData() {
             
             // Update lightning data after weather data
             updateLightningData();
-            GetPDAGeoJSONData();
+            // GetPDAGeoJSONData();
         })
         .catch(error => {
             console.error("Error fetching weather station data:", error);
