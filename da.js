@@ -16,9 +16,11 @@ async function GetPDAGeoJSONData() {
             if (feature.properties.damage == 'Major') {
                 color = 'red';
             } else if(feature.properties.damage == 'Minor'){
-                color = 'yellow';
-            }else{
                 color = 'orange';
+            } else if(feature.properties.damage == 'Affected'){
+                color = 'limegreen';
+            }else{
+                color = ' rgb(115, 1, 1)';
             }
             return L.marker(latlng, { icon: houseIcon(color) });
     }
