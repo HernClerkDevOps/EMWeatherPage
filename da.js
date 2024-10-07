@@ -2,7 +2,7 @@
 async function GetPDAGeoJSONData() {
 
     console.log("Fetching Forerunner GeoJSON Data");
-    let geojsonResponse = await fetch("https://central-ap.hernandoclerk.org/forerunner/api/damage-assessment/2024-09-26");
+    let geojsonResponse = await fetch("https://central-ap.hernandoclerk.org/forerunner/api/damage-assessment/2024-10-07");
     let geojsonData = await geojsonResponse.json();
 
     let houseIcon = (color) => L.divIcon({
